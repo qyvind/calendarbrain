@@ -1,0 +1,355 @@
+<App Theme="Basic">
+
+ <JavaScript> 
+                   var Observable = require('FuseJS/Observable');
+                   var GenerertDato = Observable("22 desember 2016");
+                   var Ukedag = 4;
+                   var dd = Date(2016,11,22);
+                   var Resultat = Observable("#3E3E3E");
+                   var startDate =  new Date("1/1/2016");
+                   var endDate =   new Date("15/1/2016");
+                   var PlusPoeng = Observable(0);
+                   var MinusPoeng = Observable(-1);
+                   var TotalPoeng = Observable(0);
+                   var dsp_month = Observable ("December");
+                   var dsp_year = Observable(2016);
+                   var dsp_day = Observable(22);
+                   var display_status = Observable("Hidden");
+                   var display_startknapp = Observable("Visible");
+                   var display_poeng = Observable("Hidden");
+                   var currentPage = Observable("forside");
+                   var level = Observable("1");
+
+                   function sentrert(argument) {
+                //    display_status.value="Visible";
+                  
+                   }
+
+                   function hvit() {
+                    Resultat.value = "#3E3E3E"; 
+                    display_status.value="Visible";                   
+                   }
+
+                    function mandagClicked() {
+             //         debug_log("mandag");
+                      Hurra(1);
+                      
+                    }
+                    function tirsdagClicked() {
+            //          debug_log("tirsdag");
+                      Hurra(2);
+                    }
+                    function onsdagClicked() {
+            //          debug_log("onsdag");
+                      Hurra(3);
+                    }
+                    function torsdagClicked() {
+             //         debug_log("torsdag");
+                      Hurra(4);
+                    }
+                    function fredagClicked() {
+              //        debug_log("fredag");
+                      Hurra(5);
+                    }
+                    function lordagClicked() {
+              //        debug_log("lørdag");
+                      Hurra(6);
+                    }
+                    function sondagClicked() {
+             //         debug_log("søndag");
+                      Hurra(0);
+                    }
+
+                    function FinnPoeng(Plus, Minus) {
+                      return  Plus - Minus;
+                    }
+
+                    function Hurra(dag) {
+                      if (display_status.value == "Visible") {
+                        if (Ukedag==dag) {
+                          Resultat.value="#e6ffe6";
+                          PlusPoeng.value++;
+                          setTimeout(hvit, 500);
+                        } else {
+                          Resultat.value="#ffd6cc";
+                          MinusPoeng.value++;
+                          setTimeout(hvit, 1500);
+                        }
+                        TotalPoeng.value = FinnPoeng(PlusPoeng.value,MinusPoeng.value);
+
+                        display_status.value="Hidden";
+                        
+                        NyDag();
+                      }
+                    } 
+                      
+                    function NyDag() {
+                     //   display_status.value="Hidden";
+                        dd = randomDate();
+                        debug_log("dd=")
+                        debug_log(dd);
+                        GenerertDato.value = formatDate(dd) ;
+                        Ukedag = dd.getDay(dd);
+                    }    
+                    
+                    function randomDate(){
+                    startDate = Date(2016,3,1);
+                    endDate = Date("2016/4/30");
+                       var spaces = (endDate - startDate);
+                       var timestamp = Math.round(Math.random() * spaces);
+                       timestamp += startDate;
+                       return new Date(timestamp);
+                   }
+
+                    function formatDate(date){
+                        var d=date
+                        var month = d.getMonth();
+                        var day = d.getDate();
+                        var months = new Array(12);
+                        months[0] = "January";
+                        months[1] = "February";
+                        months[2] = "March";
+                        months[3] = "April";
+                        months[4] = "May";
+                        months[5] = "June";
+                        months[6] = "July";
+                        months[7] = "August";
+                        months[8] = "September";
+                        months[9] = "October";
+                        months[10] = "November";
+                        months[11] = "December";
+                        dsp_day.value = day;
+                        dsp_month.value = months[month];
+                        dsp_year.value = date.getFullYear();
+                   //     debug_log(day + " " + months[month] + " " + String(date.getFullYear()));
+                        return day + " " + months[month] + " " + String(date.getFullYear());
+                    }
+
+                    function Changed2016(valg){
+                      if (valg.value==true) {
+                        endDate =  new Date(2017,0,1).getTime();
+                      } else {
+                        endDate =  new Date(2020,0,1).getTime();
+                      }
+                      debug_log("changed_2016");
+                      
+                    }
+
+                    function start(argument) {
+                      PlusPoeng.value=0;
+                      MinusPoeng.value=0;
+                      setTimeout(tidute, 60000);
+                      display_status.value="Visible";
+                      display_startknapp.value = "Hidden";
+                      display_poeng.value = "Visible";
+                    }
+
+                    function tidute() {
+                      Resultat.value="#66b3ff";
+                      display_status.value="Hidden";
+                      display_startknapp.value="Visible";
+                      currentPage.value = "visPoeng";
+
+                    }
+
+                    function instructions() {
+                      currentPage.value="instructions";
+                    }
+                    function instructionsLevel1() {
+                      currentPage.value="instructionsLevel1";
+                    }
+
+                    function playLevel()  {
+                    startDate = Date(2016,3,1);
+                    endDate = Date("2016/4/30");
+                    debug_log(startDate);
+                    currentPage.value = "play";
+                  }
+
+
+                    module.exports = 
+                    {
+                       GenerertDato: GenerertDato,
+                       mandagClicked: mandagClicked,
+                       tirsdagClicked: tirsdagClicked,
+                       onsdagClicked: onsdagClicked,
+                       torsdagClicked: torsdagClicked,
+                       fredagClicked: fredagClicked,
+                       lordagClicked: lordagClicked,
+                       sondagClicked: sondagClicked,                       
+                       Ukedag: Ukedag,
+                       Resultat: Resultat,
+                       Changed2016: Changed2016,
+                       PlusPoeng: PlusPoeng,
+                       MinusPoeng: MinusPoeng,
+                       TotalPoeng: TotalPoeng,
+                       dsp_day: dsp_day,
+                       dsp_month: dsp_month,
+                       dsp_year: dsp_year,
+                      sentrert: sentrert,
+                      display_status: display_status,
+                      start: start,
+                      display_startknapp: display_startknapp,
+                      display_poeng: display_poeng,
+                      instructions: instructions,
+                      currentPage: currentPage,
+                      FinnPoeng: FinnPoeng,
+                      instructionsLevel1: instructionsLevel1,
+                      level: level,
+                      playLevel: playLevel
+
+                    }
+                </JavaScript>
+
+  <PageControl Active="{currentPage}">
+
+    <Page Background="00ff" Name="forside">
+      
+      <StackPanel Alignment="Center">
+      <Text FontSize="50" > Kalendergøy </Text>
+      <Button Clicked="{instructionsLevel1}" Text="Instructions for Level 1" />
+    </StackPanel>
+    </Page>
+    <Page Background="{Resultat}"  Name="play">
+     
+            <Ellipse  Fill="White" Height="30" Width="90"  X="220" Y="60">
+              <DropShadow Distance="12"/>
+              <Text Value = "Sunday" Margin="15,5,0,0"/> 
+
+            </Ellipse>
+                 
+            <Ellipse  Fill="White" Height="30" Width="90"  X="260" Y="200"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Monday" Margin="15,5,0,0"/> 
+            </Ellipse>
+            <Ellipse  Fill="White" Height="30" Width="90"  X="260" Y="340"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Tuesday" Margin="15,5,0,0"/> 
+            </Ellipse>
+            <Ellipse  Fill="White" Height="30" Width="90"  X="140" Y="480"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Wednesday" Margin="5,5,0,0"/> 
+            </Ellipse> 
+         <!--   <Image File="Assets/onsdag.png" Width="90" Height="30" X="140" Y="480" /> -->
+            <Ellipse  Fill="White" Height="30" Width="90"  X="20" Y="340"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Thursday" Margin="15,5,0,0"/> 
+            </Ellipse>
+            <Ellipse  Fill="White" Height="30" Width="90"  X="20" Y="200"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Friday" Margin="15,5,0,0"/> 
+            </Ellipse>
+            <Ellipse  Fill="White" Height="30" Width="90"  X="80" Y="60"> 
+              <DropShadow Distance="12"/>
+              <Text Value = "Saturday" Margin="15,5,0,0"/> 
+            </Ellipse>
+<StatusBarBackground DockPanel.Dock="Top"/>
+               
+	<Panel >
+    <Rectangle  Fill="Red" ux:Name="timeunit" Width="15" Height="5" X="0" Y="0"/>
+		<Image ux:Name="Kalenderblad" File="C:\Users\qf\Documents\Fuse\QF SWIPE\Assets\calenderday.png"  Width="80" Height="140"   Visibility="{display_status}" >
+			<DropShadow Angle="90" Distance="8" Size="12" Spread="0.3"  />
+			<Draggable/>
+      <EnteredForceField ForceField="midten" Threshold="0.05" Handler="{sentrert}" />
+      <EnteredForceField ForceField="Sunday" Threshold="0.05" Handler="{sondagClicked}" />
+      <EnteredForceField ForceField="Fredag" Threshold="0.05" Handler="{fredagClicked}" />
+      <EnteredForceField ForceField="Tirsdag" Threshold="0.05" Handler="{tirsdagClicked}" />
+      <EnteredForceField ForceField="Mandag" Threshold="0.05" Handler="{mandagClicked}" />
+      <EnteredForceField ForceField="Torsdag" Threshold="0.05" Handler="{torsdagClicked}" />
+      <EnteredForceField ForceField="Onsdag" Threshold="0.05" Handler="{onsdagClicked}" />
+      <EnteredForceField ForceField="Lordag" Threshold="0.05" Handler="{lordagClicked}" />
+	 		<WhileDragging>
+				<BringToFront />
+				<Scale Factor=".6" Duration="0.1" DurationBack=".5" Easing="BounceOut" EasingBack="BounceIn" />
+			
+      <Spin Frequency="2"/>
+			</WhileDragging>
+			<StackPanel Padding="5">
+				<Text Value="{dsp_month}" TextColor="White" FontSize="14" Alignment="TopCenter" Padding="0,30,0,0	"/>
+				<Text Value="{dsp_day}" TextColor="Black" FontSize="40" Alignment="TopCenter" Padding="0,0,0,0" />
+				<Text Value="{dsp_year}" TextColor="Black" FontSize="14" Alignment="TopCenter" Padding="0,-5,0,0"/>
+
+				
+			</StackPanel>	  
+
+		</Image>	
+		<!-- </Rectangle> -->
+		<PointAttractor ux:Name="midten" Radius="300" Strength="300" Offset="0,-30,0" />
+		<PointAttractor ux:Name="Lordag" Offset="-70,-220,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Onsdag" Offset="00,170,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Torsdag" Offset="-105,50,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Mandag" Offset="135,-110,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Tirsdag" Offset="135,30,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Fredag" Offset="-130,-130,0" Radius="50" Strength="50" />
+		<PointAttractor ux:Name="Sunday" Offset="80,-220,0" Radius="50" Strength="50" />
+
+	<!--	<Image File="C:\Users\qf\Documents\Fuse\QF SWIPE\Assets\ukering2.png" /> -->
+ <!--   <Grid ColumnCount="2" Margin="80,420,80,0" >
+  		<Switch Value="true" Name="Bare 2016" ValueChanged="{Changed2016}"  Visibility="{display_startknapp}" />
+      <Text Value="Bare 2016" TextColor="White" Alignment="Center" Visibility="{display_startknapp}"/>
+    </Grid> -->
+    <Grid ColumnCount="2" Margin="0,430,0,0" >
+          <Text FontSize="60" TextColor="Red" Alignment="Center"  Value="{MinusPoeng}" Visibility="{display_poeng}" />
+          <Text FontSize="60" TextColor="Green" Alignment="Center"  Value="{PlusPoeng}" Visibility="{display_poeng}" />
+	   </Grid>
+    
+         <Button  Text="START" Clicked="{start}" Alignment="BottomCenter" Visibility="{display_startknapp}" Margin="0,0,0,30">
+            <WhilePressed>
+               <Scale Factor=".8" Duration=".1"/>
+              </WhilePressed>
+          </Button>
+	</Panel>  
+  <Timeline ux:Name="timeline">
+    <Move Target="timeunit" Duration="60" X="315"/>
+  </Timeline>  
+ <!-- <WhileActive>
+     <Change timeline.TargetProgress="60"/>
+  </WhileActive> -->
+   <Image Margin="-100" File="Assets/tegnetbakgrunn.png" StretchMode="Uniform" />
+</Page>
+<Page  Name="instructions">
+ 
+  <StackPanel Alignment="VerticalCenter">
+    <Text FontSize="20" Alignment="Center"> 2/2 4/4 6/6 8/8 10/10 12/12</Text>
+    <Text FontSize="20" Alignment="Center"> Siste februar</Text>
+    <Text FontSize="20" Alignment="Center"> 3 av fire år: 3/1. Skuddår: 4/1 </Text>
+    <Text FontSize="20" Alignment="Center"> Working 9 to 5 at 7-11  </Text>
+    <Text FontSize="20" Alignment="Center"> 9/5 5/9 7/11 11/7 </Text>
+    <Text FontSize="20" Alignment="Center"> Haloween 31/10</Text>
+    <Text FontSize="20" Alignment="Center"> Independence Day: 4. juli </Text>
+    <Text FontSize="20" Alignment="Center"> Marte sin bursdag: 18/4</Text>
+
+    <Text FontSize="20" Alignment="Center"> </Text>
+    <Text FontSize="20" Alignment="Center"> 2016: Mandag</Text>
+    <Text FontSize="20" Alignment="Center"> 2017: Tirsdag </Text>
+    <Text FontSize="20" Alignment="Center"> 2018: Onsdag </Text>
+    <Text FontSize="20" Alignment="Center"> 2019: Torsdag </Text>
+
+  </StackPanel>
+
+</Page>
+
+<Page  Name="instructionsLevel1">
+ 
+  <StackPanel Alignment="VerticalCenter">
+    <Text FontSize="20" Alignment="Center"> This year 4/4 is a Monday.</Text> 
+    <Text FontSize="20" Alignment="Center"> That is all you need to know to </Text>
+    <Text FontSize="20" Alignment="Center"> solve Level 1.</Text>
+    <Text FontSize="20" Alignment="Center"> You will only be tested in days </Text>
+    <Text FontSize="20" Alignment="Center">  in April this year.</Text>
+    <Text FontSize="20" Alignment="Center"/>
+    <Button Text="Play Level 1" Width="50%" Clicked="{playLevel}"/>
+  </StackPanel>
+
+</Page>
+
+
+<Page Name="visPoeng">
+  <StackPanel Alignment="Center">
+   <Text FontSize="90" TextColor="Blue" Alignment="Center"  Value="{TotalPoeng}"  />
+   <Text FontSize="90" TextColor="Blue" Alignment="Center"  Value="Poeng"  />
+  </StackPanel> 
+</Page>
+    </PageControl> 
+</App>
+
